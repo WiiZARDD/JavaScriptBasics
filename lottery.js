@@ -1,5 +1,6 @@
 let credits = 250; //Starting credit balance
 let max;
+const w = 'WiiZARDD';
 
 // Allow for user input
 const readline = require('readline')
@@ -14,7 +15,7 @@ function sL(ms) {
 }
 
 const bet = async () => {
-    rl.question("DO you want to bet MAX? (Y/N): ", async maxB => {
+    rl.question("Do you want to bet MAX? (Y/N): ", async maxB => {
         console.log(`Option ${maxB} has been chosen...`)
         if (maxB === 'y'.toLowerCase()) {
             max = true;
@@ -22,6 +23,28 @@ const bet = async () => {
         } else if (maxB === 'n'.toLowerCase()) {
             max = false;
             lottery()
+        }
+    })
+}
+
+const helpmenu = async () => {
+    console.log(' ')
+    console.log('Lottery JavaScript CLI')
+    console.log(' ')
+    console.log(`Welcome to ${w}'s JS CLI!`)
+    console.log(' ')
+    await sL(2000)
+    console.log('- You will start with 250 credits')
+    console.log(' -> Roll or bet MAX (50 credits) for a x2 reward!')
+    console.log(' ')
+    console.log(' --> Roll = 25 Credits, MAX Roll = 50 Credits')
+    console.log(`[!] You must have 50 credits to play, otherwise you risk losing everything.`)
+    console.log(' ')
+    console.log('1) MENU')
+    console.log(' ')
+    rl.question("Pick a choice: ", async choice => {
+        if (choice === '1') {
+            menu()
         }
     })
 }
@@ -34,7 +57,6 @@ const menu = () => {
     console.log('4) EXIT')
 
     rl.question("Pick an option: ", async option => {
-        await sL(2000)
         console.log(`You chose: ${option}!`)
         if (option === '1') {
             console.log('GAME TYPES')
@@ -43,8 +65,8 @@ const menu = () => {
             console.log('3) COMING SOON')
             console.log(' ')
             rl.question("What game do you want to play? ", async game => {
-                console.log(`Loading option #${game}!`)
                 if (game === '1') {
+                    console.log(`Loading option #${game}!`)
                     if (credits >= 50) {
                         console.log(`YOU HAVE ${credits}, LOADING GAME...`)
                         await sL(2000)
@@ -55,20 +77,34 @@ const menu = () => {
                         await sL(2000)
                         menu()
                     }
-
+                } else {
+                    console.log('❌ INVALID OPTION...')
+                    await sL(2000)
+                    console.log(' ')
+                    console.log('Going back to menu...')
+                    await sL(1000)
+                    menu()
                 }
             })
         } else if (option === '2') {
             usr()
         } else if (option === '3') {
-            //more logic here
+            helpmenu()
         } else if (option === '4') {
-            //more logic here
+            console.log('SHUTTING DOWN...')
+            await sL(2000)
+            console.clear()
+            rl.close()
         } else {
             console.log('❌ INVALID OPTION...')
+            await sL(2000)
+            console.log(' ')
+            console.log('Going back to menu...')
+            await sL(1000)
+            menu()
         }
-      })
-    }
+    })
+}
 
 const lottery = async () => {
     const slotRoll = () => {
@@ -93,8 +129,8 @@ const lottery = async () => {
                 console.log(`You've earned 100 Credits!`)
                 console.log(`You now have ${credits} credits!`)
             } else if (max === false) {
-                credits += 20;
-                console.log(`You've earned 20 Credits!`)
+                credits += 25;
+                console.log(`You've earned 25 Credits!`)
                 console.log(`You now have ${credits} credits!`)
             }
         }
